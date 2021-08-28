@@ -27,6 +27,9 @@ require("./utils/auth/strategies/google");
 // Twitter Strategy
 require("./utils/auth/strategies/twitter");
 
+// Linkedin Strategy
+require("./utils/auth/strategies/linkedin");
+
 // Time variables
 const THIRTY_DAYS_IN_SEC = 2592000000;
 const TWO_HOURS_IN_SEC = 7200000;
@@ -154,6 +157,30 @@ app.get("/auth/twitter", passport.authenticate("twitter"));
 app.get(
   "/auth/twitter/callback",
   passport.authenticate("twitter", { session: false }),
+  function (req, res, next) {
+    if (!req.user) {
+      next(boom.unauthorized());
+    }
+
+    const { token, ...user } = req.user;
+
+    res.cookie("token", token, {
+      httpOnly: !config.dev,
+      secure: !config.dev,
+    });
+
+    res.status(200).json(user);
+  }
+);
+
+app.get(
+  "/auth/linkedin",
+  passport.authenticate("linkedin", { state: "SOME STATE" })
+);
+
+app.get(
+  "/auth/linkedin/callback",
+  passport.authenticate("linkedin", { session: false }),
   function (req, res, next) {
     if (!req.user) {
       next(boom.unauthorized());
