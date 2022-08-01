@@ -12,7 +12,7 @@
   "dependencies": {
     "@hapi/boom": "^7.4.2",
     "@sokratis/passport-linkedin-oauth2": "^2.1.0",
-    "axios": "^0.19.0",
+    "axios": "^0.27.2",
     "cookie-parser": "^1.4.4",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
